@@ -14,7 +14,7 @@ import univesp.pi5note.services.ArduinoService;
 @Slf4j
 public class ArduinoController {
 
-    ArduinoService arduinoService;
+    private ArduinoService arduinoService;
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/arduino/command")

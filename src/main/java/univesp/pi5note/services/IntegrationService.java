@@ -4,9 +4,9 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 public class IntegrationService {
 
-    AwsService awsService;
+    private AwsService awsService;
 
-    ArduinoService arduinoService;
+    private ArduinoService arduinoService;
 
     @Scheduled(fixedDelay = 10000L)
     public void rotina() throws InterruptedException {
