@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/aws")
 @Slf4j
-public class AwsController {
+public class AwsResource {
 
     private AwsService awsService;
 

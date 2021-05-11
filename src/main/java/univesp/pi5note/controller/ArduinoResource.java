@@ -12,18 +12,18 @@ import univesp.pi5note.services.ArduinoService;
 @RestController
 @RequestMapping("/arduino")
 @Slf4j
-public class ArduinoController {
+public class ArduinoResource {
 
     private ArduinoService arduinoService;
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/arduino/command")
+    @GetMapping("/command")
     public void sendCommand(@RequestParam(name = "command") String command) {
         arduinoService.send(command);
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/arduino/response")
+    @GetMapping("/response")
     public void getResponse() {
         arduinoService.getResponse();
     }
