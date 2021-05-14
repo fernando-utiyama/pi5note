@@ -1,6 +1,7 @@
 package univesp.pi5note.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import java.util.List;
 @Slf4j
 public class AwsResource {
 
+    @Autowired
     private AwsService awsService;
 
     @ResponseStatus(HttpStatus.OK)
@@ -29,7 +31,8 @@ public class AwsResource {
     @GetMapping("/response")
     public void postResponse(@RequestParam(name = "id") Long id) {
         RequisicaoDTO requisicaoDTO = new RequisicaoDTO();
-        requisicaoDTO.setId(1000L);
+        requisicaoDTO.setId(id);
+        requisicaoDTO.setPeso(2F);
         awsService.postResponse(requisicaoDTO);
     }
 
