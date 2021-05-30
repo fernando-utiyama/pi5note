@@ -20,7 +20,15 @@ public class ArduinoService {
 
     public void send(String command) {
         SerialPort notePort = SerialPort.getCommPort(port);
+        notePort.setComPortParameters(9600, 8, 1, 0);
+        notePort.setComPortTimeouts(SerialPort.TIMEOUT_READ_BLOCKING, 1000, 0);
         notePort.openPort();
+
+        if (notePort.openPort()) {
+            System.out.println("Port is open :)");
+        } else {
+            System.out.println("Failed to open port :(");
+        }
 
         try {
             notePort.getOutputStream().write(command.getBytes());
@@ -32,15 +40,21 @@ public class ArduinoService {
         }
     }
 
-
     public Float getResponse() {
         SerialPort notePort = SerialPort.getCommPort(port);
         notePort.openPort();
 
+        notePort.setComPortParameters(9600, 8, 1, 0);
         notePort.setComPortTimeouts(SerialPort.TIMEOUT_READ_BLOCKING, 1000, 0);
+
+        if (notePort.openPort()) {
+            System.out.println("Port is open :)");
+        } else {
+            System.out.println("Failed to open port :(");
+        }
+
         BufferedReader reader = new BufferedReader(new InputStreamReader(notePort.getInputStream()));
 
-        notePort.closePort();
         String line = "0";
         try {
             line = reader.readLine();
@@ -48,6 +62,7 @@ public class ArduinoService {
             notePort.closePort();
             log.error(e.getMessage());
         }
+        notePort.closePort();
         return Float.valueOf(line);
     }
 }
