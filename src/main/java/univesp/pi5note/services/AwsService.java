@@ -28,8 +28,7 @@ public class AwsService {
     }
 
     public List<RequisicaoDTO> getCommands() {
-        String url = UriComponentsBuilder.fromHttpUrl(urlAws)
-                .path("/requests").toUriString();
+        String url = UriComponentsBuilder.fromHttpUrl(urlAws).path("/command/requests").toUriString();
         ResponseEntity<List<RequisicaoDTO>> entity = rest.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<RequisicaoDTO>>() {
         });
         return entity.getBody();
