@@ -31,8 +31,10 @@ public class ArduinoService {
         }
 
         try {
-            notePort.getOutputStream().write(command.getBytes());
-            notePort.getOutputStream().flush();
+            OutputStream outputStream = notePort.getOutputStream();
+            outputStream.write(command.getBytes());
+            outputStream.flush();
+
             notePort.closePort();
         } catch (IOException e) {
             notePort.closePort();
