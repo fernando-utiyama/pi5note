@@ -2,9 +2,7 @@ package univesp.pi5note.services;
 
 
 import com.fazecast.jSerialComm.SerialPort;
-import javafx.print.Printer;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
