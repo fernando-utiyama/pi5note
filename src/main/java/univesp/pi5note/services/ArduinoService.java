@@ -2,14 +2,13 @@ package univesp.pi5note.services;
 
 
 import com.fazecast.jSerialComm.SerialPort;
+import javafx.print.Printer;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
 
 @Slf4j
@@ -60,6 +59,11 @@ public class ArduinoService {
         try {
             line = reader.readLine();
             log.info(line);
+            FileWriter file = new FileWriter("output.txt", true);
+            PrintWriter printWriter = new PrintWriter(file);
+            printWriter.println(line);
+            file.close();
+
         } catch (IOException e) {
             notePort.closePort();
             log.error(e.getMessage());
