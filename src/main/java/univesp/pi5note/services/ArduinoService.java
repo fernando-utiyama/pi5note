@@ -3,6 +3,7 @@ package univesp.pi5note.services;
 
 import com.fazecast.jSerialComm.SerialPort;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -58,6 +59,7 @@ public class ArduinoService {
         String line = "0";
         try {
             line = reader.readLine();
+            log.info(line);
         } catch (IOException e) {
             notePort.closePort();
             log.error(e.getMessage());
