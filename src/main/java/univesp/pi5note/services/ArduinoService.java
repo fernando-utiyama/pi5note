@@ -21,7 +21,7 @@ public class ArduinoService {
     public void send(String command) {
         SerialPort notePort = SerialPort.getCommPort(port);
         notePort.setComPortParameters(9600, 8, 1, 0);
-        notePort.setComPortTimeouts(SerialPort.TIMEOUT_READ_BLOCKING, 1000, 0);
+        notePort.setComPortTimeouts(SerialPort.TIMEOUT_WRITE_BLOCKING, 1000, 0);
         notePort.openPort();
 
         if (notePort.openPort()) {
