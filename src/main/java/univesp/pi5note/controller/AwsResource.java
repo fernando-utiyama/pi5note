@@ -32,7 +32,7 @@ public class AwsResource {
     public void postResponse(@RequestParam(name = "id") Long id) {
         RequisicaoDTO requisicaoDTO = new RequisicaoDTO();
         requisicaoDTO.setId(id);
-        requisicaoDTO.setPeso(2F);
+        requisicaoDTO.setMedidas("Volume1: 132; Peso1: 100");
         awsService.postResponse(requisicaoDTO);
     }
 

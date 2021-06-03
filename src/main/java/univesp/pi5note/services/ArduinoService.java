@@ -6,7 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 
 
 @Slf4j
@@ -23,9 +26,9 @@ public class ArduinoService {
         notePort.openPort();
 
         if (notePort.openPort()) {
-            System.out.println("Port is open :)");
+            log.info("Port is open");
         } else {
-            System.out.println("Failed to open port :(");
+            log.error("Failed to open port");
         }
 
         try {
@@ -40,7 +43,7 @@ public class ArduinoService {
         }
     }
 
-    public Float getResponse() {
+    public String getResponse() {
         SerialPort notePort = SerialPort.getCommPort(port);
         notePort.openPort();
 
@@ -48,27 +51,21 @@ public class ArduinoService {
         notePort.setComPortTimeouts(SerialPort.TIMEOUT_READ_BLOCKING, 1000, 0);
 
         if (notePort.openPort()) {
-            System.out.println("Port is open :)");
+            log.info("Port is open");
         } else {
-            System.out.println("Failed to open port :(");
+            log.error("Failed to open port");
         }
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(notePort.getInputStream()));
-
-        String line = "0";
+        String line = null;
         try {
             line = reader.readLine();
-            log.info(line);
-            FileWriter file = new FileWriter("output.txt", true);
-            PrintWriter printWriter = new PrintWriter(file);
-            printWriter.println(line);
-            file.close();
 
         } catch (IOException e) {
             notePort.closePort();
             log.error(e.getMessage());
         }
         notePort.closePort();
-        return Float.valueOf(line);
+        return line;
     }
 }

@@ -13,7 +13,7 @@ public class RequisicaoDTO {
     String command;
 
     @JsonProperty
-    Float peso;
+    String medidas;
 
     @JsonProperty
     String status;

@@ -5,6 +5,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.io.FileWriter;
+import java.io.PrintWriter;
+
 @Component
 @EnableScheduling
 public class IntegrationService {
@@ -15,19 +18,29 @@ public class IntegrationService {
     @Autowired
     private ArduinoService arduinoService;
 
-//    @Scheduled(fixedDelay = 10000L)
+    @Scheduled(fixedDelay = 10000L)
     public void rotina() throws InterruptedException {
         for (RequisicaoDTO requisicao : awsService.getCommands()) {
             arduinoService.send(requisicao.getCommand());
 
             Thread.sleep(30000L);
 
-            requisicao.setPeso(arduinoService.getResponse());
+            requisicao.setMedidas(arduinoService.getResponse());
             requisicao.setStatus("FINISHED");
 
             awsService.postResponse(requisicao);
 
-            arduinoService.send("RESTART");
+            writeFile(requisicao);
         }
     }
+
+    private void writeFile(RequisicaoDTO requisicao) {
+        try (PrintWriter printWriter = new PrintWriter(new FileWriter("output.txt"))) {
+            printWriter.println(requisicao.command);
+            printWriter.println(requisicao.medidas);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
