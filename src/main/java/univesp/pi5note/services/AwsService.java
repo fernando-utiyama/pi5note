@@ -21,14 +21,14 @@ public class AwsService {
     @Value("${aws.url}")
     private String urlAws;
 
-    private RestTemplate rest;
+    private final RestTemplate rest;
 
     public AwsService(RestTemplateBuilder restTemplateBuilder) {
         this.rest = restTemplateBuilder.build();
     }
 
     public List<RequisicaoDTO> getCommands() {
-        String url = UriComponentsBuilder.fromHttpUrl(urlAws).path("/command/requests").toUriString();
+        String url = UriComponentsBuilder.fromHttpUrl(urlAws).path("/requests").toUriString();
         ResponseEntity<List<RequisicaoDTO>> entity = rest.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<List<RequisicaoDTO>>() {
         });
         return entity.getBody();
@@ -42,6 +42,6 @@ public class AwsService {
         String url = UriComponentsBuilder.fromHttpUrl(urlAws)
                 .queryParam("id", requisicao.getId())
                 .path("/response").toUriString();
-        rest.exchange(url, HttpMethod.GET, new HttpEntity<>(requisicao, headers), RequisicaoDTO.class);
+        rest.exchange(url, HttpMethod.POST, new HttpEntity<>(requisicao, headers), RequisicaoDTO.class);
     }
 }
