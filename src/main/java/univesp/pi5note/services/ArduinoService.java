@@ -19,9 +19,12 @@ public class ArduinoService {
     @Value("${arduino.port}")
     String port;
 
+    @Value("${arduino.rate}")
+    int rate;
+
     public void send(String command) {
         SerialPort notePort = SerialPort.getCommPort(port);
-        notePort.setComPortParameters(9600, 8, 1, 0);
+        notePort.setComPortParameters(rate, 8, 1, 0);
         notePort.setComPortTimeouts(SerialPort.TIMEOUT_WRITE_BLOCKING, 1000, 0);
         notePort.openPort();
 
@@ -47,7 +50,7 @@ public class ArduinoService {
         SerialPort notePort = SerialPort.getCommPort(port);
         notePort.openPort();
 
-        notePort.setComPortParameters(9600, 8, 1, 0);
+        notePort.setComPortParameters(rate, 8, 1, 0);
         notePort.setComPortTimeouts(SerialPort.TIMEOUT_READ_BLOCKING, 1000, 0);
 
         if (notePort.openPort()) {
