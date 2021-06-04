@@ -1,5 +1,6 @@
 package univesp.pi5note.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Component;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 
+@Slf4j
 @Component
 @EnableScheduling
 public class IntegrationService {
@@ -19,15 +21,24 @@ public class IntegrationService {
     private ArduinoService arduinoService;
 
     @Scheduled(fixedDelay = 5000L)
-    public void rotina() throws InterruptedException {
+    public void rotina() {
         for (RequisicaoDTO requisicao : awsService.getCommands()) {
-            String response = arduinoService.getResponse(requisicao.getCommand());
-            requisicao.setMedidas(response);
-            requisicao.setStatus("FINISHED");
+            try {
+                requisicao.setStatus("RUNNING");
+                awsService.postResponse(requisicao);
 
-            awsService.postResponse(requisicao);
+                String response = arduinoService.getResponse(requisicao.getCommand());
+                requisicao.setMedidas(response);
+                requisicao.setStatus("FINISHED");
 
-            writeFile(requisicao);
+                awsService.postResponse(requisicao);
+
+                writeFile(requisicao);
+            } catch (Exception e) {
+                requisicao.setStatus("ERROR");
+                awsService.postResponse(requisicao);
+                log.error(e.getMessage());
+            }
         }
     }
 
