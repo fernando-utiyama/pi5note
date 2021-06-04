@@ -26,8 +26,8 @@ public class ArduinoResource {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/response")
-    public void getResponse() {
-        arduinoService.getResponse();
+    public void getResponse() throws InterruptedException {
+        arduinoService.getResponse("1111");
     }
 
 }

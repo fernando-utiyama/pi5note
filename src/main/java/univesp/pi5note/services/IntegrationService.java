@@ -18,14 +18,11 @@ public class IntegrationService {
     @Autowired
     private ArduinoService arduinoService;
 
-    @Scheduled(fixedDelay = 10000L)
+    @Scheduled(fixedDelay = 5000L)
     public void rotina() throws InterruptedException {
         for (RequisicaoDTO requisicao : awsService.getCommands()) {
-            arduinoService.send(requisicao.getCommand());
-
-            Thread.sleep(30000L);
-
-            requisicao.setMedidas(arduinoService.getResponse());
+            String response = arduinoService.getResponse(requisicao.getCommand());
+            requisicao.setMedidas(response);
             requisicao.setStatus("FINISHED");
 
             awsService.postResponse(requisicao);

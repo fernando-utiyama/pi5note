@@ -22,6 +22,9 @@ public class ArduinoService {
     @Value("${arduino.rate}")
     int rate;
 
+    @Value("${arduino.sleeptime}")
+    int sleeptime;
+
     public void send(String command) {
         SerialPort notePort = SerialPort.getCommPort(port);
         notePort.setComPortParameters(rate, 8, 1, 0);
@@ -46,12 +49,14 @@ public class ArduinoService {
         }
     }
 
-    public String getResponse() {
-        SerialPort notePort = SerialPort.getCommPort(port);
-        notePort.openPort();
+    public String getResponse(String command) throws InterruptedException {
+        String line = null;
 
+        SerialPort notePort = SerialPort.getCommPort(port);
         notePort.setComPortParameters(rate, 8, 1, 0);
-        notePort.setComPortTimeouts(SerialPort.TIMEOUT_READ_BLOCKING, 1000, 0);
+        notePort.setComPortTimeouts(SerialPort.TIMEOUT_WRITE_BLOCKING, 1000, 0);
+        notePort.setComPortTimeouts(SerialPort.TIMEOUT_READ_BLOCKING, 20000, 0);
+        notePort.openPort();
 
         if (notePort.openPort()) {
             log.info("Port is open");
@@ -59,8 +64,18 @@ public class ArduinoService {
             log.error("Failed to open port");
         }
 
+        try {
+            OutputStream outputStream = notePort.getOutputStream();
+            outputStream.write(command.getBytes());
+            outputStream.flush();
+
+        } catch (IOException e) {
+            notePort.closePort();
+            log.error(e.getMessage());
+        }
+        Thread.sleep(sleeptime);
+
         BufferedReader reader = new BufferedReader(new InputStreamReader(notePort.getInputStream()));
-        String line = null;
         try {
             line = reader.readLine();
 
