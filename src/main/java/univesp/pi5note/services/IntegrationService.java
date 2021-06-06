@@ -26,6 +26,12 @@ public class IntegrationService {
     @Value("${profile.local}")
     private boolean local;
 
+    @Value("${input.file}")
+    private String inputFile;
+
+    @Value("${output.file}")
+    private String outputFile;
+
     @Scheduled(fixedDelay = 5000L)
     public void rotina() {
         if (local) {
@@ -65,14 +71,14 @@ public class IntegrationService {
     }
 
     private String readCommand() throws Exception {
-        BufferedReader reader = new BufferedReader(new FileReader("C:\\wamp64\\arduino\\comandaArduino.txt"));
+        BufferedReader reader = new BufferedReader(new FileReader(inputFile));
         String command = reader.readLine();
         log.info(command);
         return command;
     }
 
     private void writeFile(String medidas) throws Exception {
-        PrintWriter printWriter = new PrintWriter(new FileWriter("C:\\wamp64\\arduino\\leArduino.txt"));
+        PrintWriter printWriter = new PrintWriter(new FileWriter(outputFile));
         printWriter.println(medidas);
         printWriter.close();
     }
