@@ -80,7 +80,7 @@ public class ArduinoService {
         try {
             line = reader.readLine();
             log.info("Medida realizada com sucesso");
-        } catch (IOException e) {
+        } catch (Exception e) {
             notePort.closePort();
             log.error(e.getMessage());
         }
