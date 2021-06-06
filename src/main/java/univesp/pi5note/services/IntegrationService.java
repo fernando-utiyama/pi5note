@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
@@ -47,10 +48,10 @@ public class IntegrationService {
             String command = readCommand();
             if (command != null) {
                 deleteFiles();
+                String response = arduinoService.getResponse(command);
+                log.info("Arduino response: " + response);
+                writeFile(response);
             }
-            String response = arduinoService.getResponse(command);
-            log.info("Arduino response: " + response);
-            writeFile(response);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -76,9 +77,16 @@ public class IntegrationService {
     }
 
     private String readCommand() throws Exception {
-        BufferedReader reader = new BufferedReader(new FileReader(inputFile));
-        String command = reader.readLine();
-        log.info(command);
+        String command =  null;
+        try {
+            FileReader fileReader = new FileReader(inputFile);
+            BufferedReader reader = new BufferedReader(fileReader);
+            command = reader.readLine();
+            log.info(command);
+            return command;
+        } catch (FileNotFoundException e) {
+            log.info("Arquivo não encontrado");
+        }
         return command;
     }
 
