@@ -69,7 +69,8 @@ public class ArduinoService {
             outputStream.write(command.getBytes());
             outputStream.flush();
 
-        } catch (IOException e) {
+
+        } catch (Exception e) {
             notePort.closePort();
             log.error(e.getMessage());
         }
@@ -78,7 +79,7 @@ public class ArduinoService {
         BufferedReader reader = new BufferedReader(new InputStreamReader(notePort.getInputStream()));
         try {
             line = reader.readLine();
-
+            log.info("Medida realizada com sucesso");
         } catch (IOException e) {
             notePort.closePort();
             log.error(e.getMessage());
