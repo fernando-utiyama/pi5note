@@ -23,7 +23,7 @@ public class IntegrationService {
     @Autowired
     private ArduinoService arduinoService;
 
-    @Value("${local.server}")
+    @Value("${profile.local}")
     private boolean local;
 
     @Scheduled(fixedDelay = 5000L)
