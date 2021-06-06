@@ -22,13 +22,16 @@ public class ArduinoService {
     @Value("${arduino.rate}")
     int rate;
 
+    @Value("${arduino.timeout}")
+    int timeout;
+
     @Value("${arduino.sleeptime}")
     int sleeptime;
 
     public void send(String command) {
         SerialPort notePort = SerialPort.getCommPort(port);
         notePort.setComPortParameters(rate, 8, 1, 0);
-        notePort.setComPortTimeouts(SerialPort.TIMEOUT_WRITE_BLOCKING, 1000, 0);
+        notePort.setComPortTimeouts(SerialPort.TIMEOUT_WRITE_BLOCKING, timeout, 0);
         notePort.openPort();
 
         if (notePort.openPort()) {
