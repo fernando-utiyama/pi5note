@@ -47,7 +47,6 @@ public class IntegrationService {
         try {
             String command = readCommand();
             if (command != null) {
-                deleteFiles();
                 String response = arduinoService.getResponse(command);
                 log.info("Arduino response: " + response);
                 writeFile(response);
