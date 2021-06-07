@@ -67,6 +67,7 @@ public class IntegrationService {
                 requisicao.setStatus("FINISHED");
 
                 awsService.postResponse(requisicao);
+                log.info("Rotina executada com sucesso");
             } catch (Exception e) {
                 requisicao.setStatus("ERROR");
                 awsService.postResponse(requisicao);

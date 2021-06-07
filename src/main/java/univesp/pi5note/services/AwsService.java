@@ -1,5 +1,6 @@
 package univesp.pi5note.services;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.ParameterizedTypeReference;
@@ -15,6 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.Collections;
 import java.util.List;
 
+@Slf4j
 @Component
 public class AwsService {
 
@@ -38,6 +40,7 @@ public class AwsService {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.setContentType(MediaType.APPLICATION_JSON);
+        log.info(requisicao.toString());
 
         String url = UriComponentsBuilder.fromHttpUrl(urlAws)
                 .queryParam("id", requisicao.getId())
