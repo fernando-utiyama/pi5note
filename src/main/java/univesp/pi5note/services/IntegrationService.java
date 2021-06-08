@@ -63,8 +63,12 @@ public class IntegrationService {
                 awsService.postResponse(requisicao);
 
                 String response = arduinoService.getResponse(requisicao.getCommand());
-                requisicao.setMedidas(response);
-                requisicao.setStatus("FINISHED");
+                if (response == null) {
+                    requisicao.setStatus("ERROR");
+                } else {
+                    requisicao.setMedidas(response);
+                    requisicao.setStatus("FINISHED");
+                }
 
                 awsService.postResponse(requisicao);
                 log.info("Rotina executada com sucesso");
