@@ -58,7 +58,7 @@ public class ArduinoService {
         SerialPort notePort = SerialPort.getCommPort(port);
         notePort.setComPortParameters(rate, 8, 1, 0);
         notePort.setComPortTimeouts(SerialPort.TIMEOUT_WRITE_BLOCKING, 1000, 0);
-        notePort.setComPortTimeouts(SerialPort.TIMEOUT_READ_BLOCKING, 10000, 0);
+        notePort.setComPortTimeouts(SerialPort.TIMEOUT_READ_BLOCKING, 40000, 0);
         notePort.openPort();
 
         if (notePort.openPort()) {
@@ -77,6 +77,7 @@ public class ArduinoService {
             notePort.closePort();
             log.error(e.getMessage());
         }
+        log.info("Aguardando (s): " + sleeptime);
         Thread.sleep(sleeptime);
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(notePort.getInputStream()));

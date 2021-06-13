@@ -34,7 +34,7 @@ public class IntegrationService {
     @Value("${output.file}")
     private String outputFile;
 
-    @Scheduled(fixedDelay = 10000L)
+    @Scheduled(fixedDelay = 5000L)
     public void rotina() {
         if (local) {
             localRotina();
