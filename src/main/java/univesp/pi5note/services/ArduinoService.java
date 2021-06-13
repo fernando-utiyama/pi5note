@@ -77,7 +77,7 @@ public class ArduinoService {
             notePort.closePort();
             log.error(e.getMessage());
         }
-        log.info("Aguardando (s): " + sleeptime);
+        log.info("Aguardando (ms): " + sleeptime);
         Thread.sleep(sleeptime);
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(notePort.getInputStream()));
