@@ -58,7 +58,7 @@ public class ArduinoService {
         SerialPort notePort = SerialPort.getCommPort(port);
         notePort.setComPortParameters(rate, 8, 1, 0);
         notePort.setComPortTimeouts(SerialPort.TIMEOUT_WRITE_BLOCKING, 1000, 0);
-        notePort.setComPortTimeouts(SerialPort.TIMEOUT_READ_BLOCKING, 40000, 0);
+        notePort.setComPortTimeouts(SerialPort.TIMEOUT_READ_BLOCKING, 25000, 25000);
         notePort.openPort();
 
         if (notePort.openPort()) {
@@ -80,6 +80,7 @@ public class ArduinoService {
         log.info("Aguardando (ms): " + sleeptime);
         Thread.sleep(sleeptime);
 
+        log.info("Aguardando medida");
         BufferedReader reader = new BufferedReader(new InputStreamReader(notePort.getInputStream()));
         try {
             line = reader.readLine();
