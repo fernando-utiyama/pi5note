@@ -34,7 +34,7 @@ public class ArduinoService {
         notePort.setComPortTimeouts(SerialPort.TIMEOUT_WRITE_BLOCKING, 1000, 0);
         notePort.openPort();
 
-        if (notePort.openPort()) {
+        if (notePort.isOpen()) {
             log.info("Port is open");
         } else {
             log.error("Failed to open port");
@@ -61,7 +61,7 @@ public class ArduinoService {
         notePort.setComPortTimeouts(SerialPort.TIMEOUT_READ_BLOCKING, 25000, 25000);
         notePort.openPort();
 
-        if (notePort.openPort()) {
+        if (notePort.isOpen()) {
             log.info("Port is open");
         } else {
             log.error("Failed to open port");
