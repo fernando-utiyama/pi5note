@@ -48,7 +48,6 @@ public class IntegrationService {
             String command = readCommand();
             if (command != null) {
                 String response = arduinoService.getResponse(command);
-                log.info("Arduino response: " + response);
                 writeFile(response);
             }
         } catch (Exception e) {

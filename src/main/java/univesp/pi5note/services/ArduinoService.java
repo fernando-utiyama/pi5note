@@ -22,8 +22,8 @@ public class ArduinoService {
     @Value("${arduino.rate}")
     int rate;
 
-    @Value("${arduino.timeout}")
-    int timeout;
+    @Value("${arduino.open.port.time}")
+    int openPortTime;
 
     @Value("${arduino.sleeptime}")
     int sleeptime;
@@ -56,13 +56,14 @@ public class ArduinoService {
         String line = null;
 
         SerialPort notePort = SerialPort.getCommPort(port);
-        notePort.setComPortParameters(rate, 8, 1, 0);
+        notePort.setComPortParameters(rate, 8, SerialPort.ONE_STOP_BIT, SerialPort.NO_PARITY);
         notePort.setComPortTimeouts(SerialPort.TIMEOUT_WRITE_BLOCKING, 1000, 0);
-        notePort.setComPortTimeouts(SerialPort.TIMEOUT_READ_BLOCKING, 25000, 25000);
+        notePort.setComPortTimeouts(SerialPort.TIMEOUT_READ_BLOCKING, 25000, 1000);
         notePort.openPort();
 
         if (notePort.isOpen()) {
             log.info("Port is open");
+            Thread.sleep(openPortTime);
         } else {
             log.error("Failed to open port");
         }
