@@ -8,7 +8,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -46,6 +45,8 @@ public class IntegrationService {
     private void localRotina() {
         try {
             String command = readCommand();
+            writeFile("");
+
             if (command != null) {
                 String response = arduinoService.getResponse(command);
                 writeFile(response);
@@ -81,7 +82,7 @@ public class IntegrationService {
     }
 
     private String readCommand() throws Exception {
-        String command =  null;
+        String command = null;
         try {
             FileReader fileReader = new FileReader(inputFile);
             BufferedReader reader = new BufferedReader(fileReader);
@@ -98,14 +99,6 @@ public class IntegrationService {
         PrintWriter printWriter = new PrintWriter(new FileWriter(outputFile));
         printWriter.println(medidas);
         printWriter.close();
-    }
-
-    private void deleteFiles() {
-        File output = new File(outputFile);
-        File input = new File(inputFile);
-
-        output.delete();
-        input.delete();
     }
 
 }
